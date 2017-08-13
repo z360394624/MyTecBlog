@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 
 import HeaderView from './common/HeaderView';
+import DynamicTextInput from './DynamicTextInput';
 
 export default function appSetup () {
 
@@ -18,7 +19,12 @@ export default function appSetup () {
 
     render() {
       return (
-        <HeaderView style={{height: 48}}/>
+          <View style={styles.container}>
+            <HeaderView/>
+              <View style={styles.line}/>
+            <DynamicTextInput/>
+          </View>
+
 
       // 试试去掉父View中的`flex: 1`。
       // 则父View不再具有尺寸，因此子组件也无法再撑开。
@@ -36,3 +42,14 @@ export default function appSetup () {
   return MyTecBlog
 
 }
+
+var styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'whitesmoke',
+    },
+    line: {
+        height: 1,
+        backgroundColor: 'lightgray',
+    },
+})
