@@ -33,8 +33,8 @@ export default class HeaderView extends Component {
     //发送按钮
     _onSendBtnPressed = () => {
         alert("123"+this.state.dynamicText)
-        // console.log("====发送====", dynamic);
-        NativeModules.RNBridge.handleMessage(this.state.dynamic)
+        console.log("====发送====", dynamic);
+        NativeModules.RNBridge.handleMessage(this.state.dynamicText)
     }
 
   render(){
