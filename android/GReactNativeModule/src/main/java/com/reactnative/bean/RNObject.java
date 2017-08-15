@@ -6,4 +6,13 @@ package com.reactnative.bean;
 
 public class RNObject {
 
+    String msgType;
+
+    public String getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
+    }
 }

@@ -7,9 +7,13 @@
     "test": "jest"
   },
   "dependencies": {
+    "prop-types": "^15.5.10",
     "react": "^16.0.0-alpha.12",
     "react-native": "^0.47.1",
+    "react-native-camera": "^0.10.0",
+    "react-native-gallery": "0.0.17",
     "react-native-vector-icons": "^4.3.0",
+    "react-navigation": "^1.0.0-beta.11",
     "yarn": "^0.27.5"
   },
   "devDependencies": {

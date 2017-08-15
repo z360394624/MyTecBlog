@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     Text,
@@ -7,8 +7,7 @@ import {
     TouchableOpacity,
     DeviceEventEmitter
 } from 'react-native';
-
-import DynamicTextInput from '../DynamicTextInput';
+import PropTypes from 'prop-types';
 
 var {NativeModules} = require('react-native')
 
@@ -19,51 +18,57 @@ var {NativeModules} = require('react-native')
 
 export default class HeaderView extends Component {
 
-    constructor(){
-        super()
-        this.event = DeviceEventEmitter.addListener('getDynamicText',(text) =>{
-            this.state = {'dynamicText':text}
+    constructor() {
+        super();
+        this.state = {'dynamicText': ''};
+        this.props = {
+            viewTitle: '',
+            rightText: '',
+        };
+        this.event = DeviceEventEmitter.addListener('getDynamicText', (text) => {
+            this.state = {'dynamicText': text}
         });
     }
+
     // 返回按钮
     _onBackBtnPressed = () => {
         console.log("====返回====");
         NativeModules.RNBridge.handleMessage('finishActivity')
     }
-    //发送按钮
+    // 发送按钮
     _onSendBtnPressed = () => {
-        alert("123"+this.state.dynamicText)
-        console.log("====发送====", dynamic);
-        NativeModules.RNBridge.handleMessage(this.state.dynamicText)
+        this.state.dynamicText == '' ? (
+            alert("dynamicText is empty")
+        ) : (
+            NativeModules.RNBridge.handleMessage(this.state.dynamicText)
+        );
     }
 
-  render(){
-    return(
-      <View style={styles.container}>
-          <TouchableOpacity style={styles.backBtn} onPress={this._onBackBtnPressed}>
-            <Image source={require('./../img/common/left_arrow.png')} style={styles.backBtnImage}/>
-          </TouchableOpacity>
-          <View style={styles.titleTextContainer}>
-            <Text style={styles.titleText}>动态发布</Text>
-          </View>
-          <TouchableOpacity style={styles.sendBtnContainer} onPress={this._onSendBtnPressed}>
-            <Text style={styles.sendBtn}>发送</Text>
-          </TouchableOpacity>
-      </View>
-    );
-  }
+    render() {
+        return (
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.backBtn} onPress={this._onBackBtnPressed}>
+                    <Image source={require('./../img/common/left_arrow.png')} style={styles.backBtnImage}/>
+                </TouchableOpacity>
+                <View style={styles.titleTextContainer}>
+                    <Text style={styles.titleText}>{this.props.viewTitle}</Text>
+                </View>
+                <TouchableOpacity style={styles.sendBtnContainer} onPress={this._onSendBtnPressed}>
+                    <Text style={styles.sendBtn}>{this.props.rightText}</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 }
 
 var styles = StyleSheet.create({
     container: {
-        height : 50,
+        height: 50,
         backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent: 'center'
     },
-    backBtnImage: {
-
-    },
+    backBtnImage: {},
     backBtn: {
         left: 12,
         flexDirection: 'column',
@@ -86,7 +91,7 @@ var styles = StyleSheet.create({
         right: 12,
     },
     sendBtn: {
-        fontSize: 22,
-        color: 'red',
+        fontSize: 20,
+        color: 'pink',
     },
 })

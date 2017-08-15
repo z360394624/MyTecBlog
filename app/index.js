@@ -1,45 +1,73 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  StyleSheet,
-  View
+    StyleSheet,
+    View,
+    DeviceEventEmitter,
 } from 'react-native';
 
 import HeaderView from './common/HeaderView';
 import DynamicTextInput from './DynamicTextInput';
+import BottomButtonView from './BottomButtonView';
+import ImagePreview from './ImagePreview';
+import {StackNavigator} from 'react-navigation';
 
-export default function appSetup () {
+export default function appSetup() {
 
-  class MyTecBlog extends Component {
 
-    constructor(){
-      super()
+    class MyTecBlog extends Component {
 
+
+        constructor() {
+            super()
+            DeviceEventEmitter.addListener('imagePreview', (photoList) => {
+                console.log("run listener=================" + photoList)
+                this._onImageItemClicked(photoList)
+            });
+
+        }
+
+        _onImageItemClicked(photoList) {
+            const {navigate} = this.props.navigation;
+            navigate('ImagePreview', {imageList: photoList})
+        }
+
+        render() {
+
+            return (
+                <View style={styles.container}>
+                    <HeaderView viewTitle='动态发布' rightText='发送'/>
+                    <View style={styles.line}/>
+                    <DynamicTextInput/>
+                    <BottomButtonView style={styles.bottomView}/>
+                </View>
+            );
+        }
 
     }
 
-    render() {
-      return (
-          <View style={styles.container}>
-            <HeaderView/>
-              <View style={styles.line}/>
-            <DynamicTextInput/>
-          </View>
+    const TecBlog = StackNavigator({
+        MyTecBlog: {
+            screen: MyTecBlog,
+            navigationOptions: {
+                header: null,
+            }
+        },
+        ImagePreview: {
+            screen: ImagePreview,
+            navigationOptions: {
+                header: null,
+            }
+        },
+        DynamicTextInput: {
+            screen: DynamicTextInput,
+            navigationOptions: {
+                header: null,
+            }
+        }
 
+    })
 
-      // 试试去掉父View中的`flex: 1`。
-      // 则父View不再具有尺寸，因此子组件也无法再撑开。
-      // 然后再用`height: 300`来代替父View的`flex: 1`试试看？
-      // <View style={{flex: 1}}>
-      //   <View style={{flex: 1, backgroundColor: 'powderblue'}} />
-      //   <View style={{flex: 2, backgroundColor: 'skyblue'}} />
-      //   <View style={{flex: 3, backgroundColor: 'steelblue'}} />
-      // </View>
-    );
-    }
-
-
-  }
-  return MyTecBlog
+    return TecBlog
 
 }
 
@@ -52,4 +80,9 @@ var styles = StyleSheet.create({
         height: 1,
         backgroundColor: 'lightgray',
     },
+    bottomView: {
+        height: 50,
+        backgroundColor: 'black',
+        alignItems: 'flex-end',
+    }
 })

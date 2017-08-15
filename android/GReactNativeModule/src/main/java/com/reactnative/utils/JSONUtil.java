@@ -1,4 +1,4 @@
-package com.reactnative;
+package com.reactnative.utils;
 
 import com.alibaba.fastjson.JSON;
 
